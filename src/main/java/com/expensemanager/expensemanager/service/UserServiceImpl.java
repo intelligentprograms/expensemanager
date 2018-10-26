@@ -19,6 +19,8 @@ public class UserServiceImpl implements UserService{
 
     //update
     public User update(User user){
+        User oldUser = userRepository.findById(Integer.parseInt(user.getId()));
+
         user.setFirstName(user.getFirstName());
         user.setLastName(user.getLastName());
         user.setLogin(user.getLogin());

@@ -20,6 +20,7 @@ public class User {
     private Integer languageId;
     private Date dateOfBirth;
     private Date registrationDate;
+    private Wallet wallet;
     public User(){}
 
     /*TO DO: use builder pattern here*/
@@ -134,6 +135,9 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
+    public Wallet getWallet() { return wallet; }
+
+    public void setWallet(Wallet wallet) { this.wallet = wallet; }
     @Override
     public String toString() {
         return "User{" +
