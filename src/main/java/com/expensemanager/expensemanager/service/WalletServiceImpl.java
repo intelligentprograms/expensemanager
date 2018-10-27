@@ -44,7 +44,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public List<Wallet> getAllForUser(String userId) {
-        return walletRepository.getAllForUser(userId);
+    public List<Wallet> getByUserId(String userId) {
+        return walletRepository.getByUserId(userId);
     }
 }

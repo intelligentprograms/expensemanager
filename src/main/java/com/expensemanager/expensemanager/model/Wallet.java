@@ -3,6 +3,10 @@ package com.expensemanager.expensemanager.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Objects;
 
 @Document
@@ -10,11 +14,18 @@ public class Wallet {
 
     @Id
     private String id;
+    @NotNull
+    @Size(min = 3, max = 20)
     private String name;
+    @NotNull
     private String userId;
+    @NotNull
     private String currencyId;
+    @NotNull
     private WalletType walletType;
+    @Min(0)
     private float amount;
+    private List<Expense> expense;
 
     public String getId() {
         return id;
@@ -63,6 +74,10 @@ public class Wallet {
     public void setAmount(float amount) {
         this.amount = amount;
     }
+
+    public List<Expense> getExpense() { return expense; }
+
+    public void setExpense(List<Expense> expense) { this.expense = expense; }
 
     @Override
     public boolean equals(Object o) {

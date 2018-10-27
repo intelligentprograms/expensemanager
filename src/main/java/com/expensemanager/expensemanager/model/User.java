@@ -3,28 +3,49 @@ package com.expensemanager.expensemanager.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Document
 public class User {
     @Id
     private String Id;
+    @NotNull
+    @Size(min = 3, max = 30)
     private String firstName;
+    @NotNull
+    @Size(min = 3, max = 30)
     private String lastName;
+    @NotNull
+    @Size(min = 5, max = 30)
     private String login;
+    @NotNull
+    @Size(min = 5, max = 30)
     private String password;
+    @Size(min = 0, max = 100)
     private String description;
+    @Email
+    @NotNull
     private String email;
+    @NotNull
     private Integer groupId;
+    @NotNull
     private Integer countryId;
+    @NotNull
     private Integer languageId;
+    @NotNull
     private Date dateOfBirth;
     private Date registrationDate;
-    private Wallet wallet;
+    private List<Wallet> wallet;
     public User(){}
 
     /*TO DO: use builder pattern here*/
-    public User(String id, String firstName, String lastName, String login, String password, String description, String email, Integer groupId, Integer countryId, Integer languageId, Date dateOfBirth, Date registrationDate) {
+    public User(String id, String firstName, String lastName, String login, String password,
+                String description, String email, Integer groupId, Integer countryId, Integer languageId,
+                Date dateOfBirth, Date registrationDate, Wallet wallet) {
         Id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,6 +58,7 @@ public class User {
         this.languageId = languageId;
         this.dateOfBirth = dateOfBirth;
         this.registrationDate = registrationDate;
+        this.wallet = (List<Wallet>) wallet;
     }
 
     public String getId() {
@@ -135,9 +157,9 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
-    public Wallet getWallet() { return wallet; }
+    public List<Wallet> getWallet() { return wallet; }
 
-    public void setWallet(Wallet wallet) { this.wallet = wallet; }
+    public void setWallet(List<Wallet> wallet) { this.wallet = wallet; }
     @Override
     public String toString() {
         return "User{" +
@@ -153,6 +175,7 @@ public class User {
                 ", languageId=" + languageId +
                 ", dateOfBirth=" + dateOfBirth +
                 ", registrationDate=" + registrationDate +
+                ", wallet=" + wallet +
                 '}';
     }
 }

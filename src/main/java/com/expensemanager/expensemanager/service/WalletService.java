@@ -11,6 +11,6 @@ public interface WalletService {
     void deleteWallet(String id);
     List<Wallet> getAll();
 
-    List<Wallet> getAllForUser(String userId);
+    List<Wallet> getByUserId(String userdId);
 
 }
