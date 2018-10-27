@@ -50,5 +50,9 @@ public class UserServiceImpl implements UserService{
         return userRepository.existsUserByLogin(login);
     }
 
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
 }
