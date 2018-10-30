@@ -20,7 +20,8 @@ public class User {
     private Integer languageId;
     private Date dateOfBirth;
     private Date registrationDate;
-    public User(){}
+
+    public User(){ }
 
     /*TO DO: use builder pattern here*/
     public User(String id, String firstName, String lastName, String login, String password, String description, String email, Integer groupId, Integer countryId, Integer languageId, Date dateOfBirth, Date registrationDate) {

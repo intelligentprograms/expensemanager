@@ -26,7 +26,19 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "all", method = RequestMethod.GET)
+    @RequestMapping(value = "/update-user", method = RequestMethod.PUT)
+    public String updateUser(@RequestBody User user) {
+        if(userService.existsUserByLogin(user.getLogin())){
+            userService.update(user);
+            return "/updated";
+        }else{
+            System.out.printf("Login %s doesn't exist", user.getLogin());
+            System.out.println(user);
+            return "/updated";
+        }
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<User> getAll(){
         return userService.getAll();
     }
