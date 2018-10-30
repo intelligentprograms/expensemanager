@@ -1,7 +1,9 @@
 package com.expensemanager.expensemanager.controller;
 
 import com.expensemanager.expensemanager.model.User;
+import com.expensemanager.expensemanager.model.Wallet;
 import com.expensemanager.expensemanager.service.UserService;
+import com.expensemanager.expensemanager.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
