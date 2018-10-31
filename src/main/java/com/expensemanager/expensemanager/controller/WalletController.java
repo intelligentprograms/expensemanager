@@ -21,8 +21,8 @@ public class WalletController {
 
 
     @RequestMapping(value = "/login",method= RequestMethod.POST)
-    public String  create(@RequestBody Wallet wallet, String username){
-        User user = userService.findByUsername(username);
+    public String  create(@RequestBody Wallet wallet, String login){
+        User user = userService.findByLogin(login);
 
         if(user.getWallet().contains(wallet)){
             System.out.println("You already have this wallet!");

@@ -3,9 +3,11 @@ package com.expensemanager.expensemanager.service;
 import com.expensemanager.expensemanager.model.Expense;
 import com.expensemanager.expensemanager.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ExpenseServiceImpl implements ExpenseService{
 
 
