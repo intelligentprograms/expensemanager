@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/login",method= RequestMethod.POST)
-    public String  create(@RequestBody User user){
+    public String  createUser(@RequestBody User user){
         if(userService.existsUserByLogin(user.getLogin())){
             System.out.printf("Login %s already exists", user.getLogin());
             return "/login";
@@ -35,11 +35,24 @@ public class UserController {
         }else{
             System.out.printf("Login %s doesn't exist", user.getLogin());
             System.out.println(user);
-            return "/updated";
+            return "/index";
         }
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE)
+    public String deleteUser(@PathVariable("id")ObjectId id){
+        User user = userService.getUserById(id);
+        if (user!=null){
+            userService.delete(user);
+            System.out.printf("User [%s] has been deleted.\n", user);
+            return "/deleted";
+        }else{
+            System.out.printf("User [%s] not found, delete failed.\n", id);
+            return "index";
+        }
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<User> getAll(){
         return userService.getAll();
     }
