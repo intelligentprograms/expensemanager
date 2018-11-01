@@ -1,9 +1,8 @@
 package com.expensemanager.expensemanager.controller;
 
 import com.expensemanager.expensemanager.model.User;
-import com.expensemanager.expensemanager.model.Wallet;
 import com.expensemanager.expensemanager.service.UserService;
-import com.expensemanager.expensemanager.service.WalletService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/update-user", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public String updateUser(@RequestBody User user) {
         if(userService.existsUserByLogin(user.getLogin())){
             userService.update(user);
@@ -43,5 +42,11 @@ public class UserController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<User> getAll(){
         return userService.getAll();
+    }
+
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public User getById(@PathVariable("id")ObjectId id){
+        return userService.getUserById(id);
     }
 }

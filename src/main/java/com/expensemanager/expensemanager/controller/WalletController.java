@@ -20,7 +20,7 @@ public class WalletController {
     UserService userService;
 
 
-    @RequestMapping(value = "/login",method= RequestMethod.POST)
+    /*@RequestMapping(value = "/login",method= RequestMethod.POST)
     public String  create(@RequestBody Wallet wallet, String login){
         User user = userService.findByLogin(login);
 
@@ -33,5 +33,5 @@ public class WalletController {
             user.getWallet().add(wallet);
             return "/index";
         }
-    }
+    }*/
 }

@@ -2,46 +2,48 @@ package com.expensemanager.expensemanager.service;
 
 import com.expensemanager.expensemanager.model.User;
 import com.expensemanager.expensemanager.repository.UserRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
 
     //create
-    public User create(User user){
+    public User create(User user) {
         return userRepository.save(user);
     }
 
     //update
-    public User update(User user){
-        User oldUser = userRepository.findById(Integer.parseInt(user.getId()));
+    public User update(User user) {
+        User oldUser = userRepository.findById(user.getId());
 
-        user.setFirstName(user.getFirstName());
-        user.setLastName(user.getLastName());
-        user.setLogin(user.getLogin());
-        user.setPassword(user.getPassword());
-        user.setDescription(user.getDescription());
-        user.setEmail(user.getEmail());
-        user.setGroupId(user.getGroupId());
-        user.setCountryId(user.getCountryId());
-        user.setLanguageId(user.getLanguageId());
-        user.setDateOfBirth(user.getDateOfBirth());
-        user.setRegistrationDate(user.getRegistrationDate());
-        return userRepository.save(user);
+        oldUser.setFirstName(user.getFirstName());
+        oldUser.setLastName(user.getLastName());
+        oldUser.setLogin(user.getLogin());
+        oldUser.setPassword(user.getPassword());
+        oldUser.setDescription(user.getDescription());
+        oldUser.setEmail(user.getEmail());
+        oldUser.setGroupId(user.getGroupId());
+        oldUser.setCountryId(user.getCountryId());
+        oldUser.setLanguageId(user.getLanguageId());
+        oldUser.setDateOfBirth(user.getDateOfBirth());
+        return userRepository.save(oldUser);
     }
 
     //delete
-    public void delete(String id){
-        User user = userRepository.findById(Integer.parseInt(id));
-        userRepository.delete(user);
+    public void delete(User user) {
+        if (userRepository.existsUserByLogin(user.getLogin())) {
+            userRepository.delete(user);
+        }
     }
 
-    public List<User> getAll(){
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
@@ -53,6 +55,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findByLogin(String login) {
         return userRepository.findByLogin(login);
+    }
+
+    @Override
+    public User getUserById(ObjectId id) {
+        return userRepository.findById(id);
     }
 
 }
