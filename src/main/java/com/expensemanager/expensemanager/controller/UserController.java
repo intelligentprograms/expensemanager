@@ -4,6 +4,8 @@ import com.expensemanager.expensemanager.model.User;
 import com.expensemanager.expensemanager.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,51 +17,56 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login",method= RequestMethod.POST)
-    public String  createUser(@RequestBody User user){
-        if(userService.existsUserByLogin(user.getLogin())){
+    @PostMapping(value = "/signup")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        if (userService.existsUserByLogin(user.getLogin())) {
             System.out.printf("Login %s already exists", user.getLogin());
-            return "/login";
-        }else{
-            userService.create(user);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            User cratedUser = userService.create(user);
             System.out.println(user);
-            return "/index";
+            return new ResponseEntity<>(cratedUser, HttpStatus.OK);
         }
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public String updateUser(@RequestBody User user) {
-        if(userService.existsUserByLogin(user.getLogin())){
-            userService.update(user);
-            return "/updated";
-        }else{
+    @PutMapping(value = "/update")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        if (userService.existsUserByLogin(user.getLogin())) {
+            User updatedUser = userService.update(user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } else {
             System.out.printf("Login %s doesn't exist", user.getLogin());
             System.out.println(user);
-            return "/index";
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE)
-    public String deleteUser(@PathVariable("id")ObjectId id){
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") ObjectId id) {
         User user = userService.getUserById(id);
-        if (user!=null){
+        if (user != null) {
             userService.delete(user);
             System.out.printf("User [%s] has been deleted.\n", user);
-            return "/deleted";
-        }else{
+            return new ResponseEntity<>("User has been deleted", HttpStatus.OK);
+        } else {
             System.out.printf("User [%s] not found, delete failed.\n", id);
-            return "index";
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
         }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<User> getAll(){
-        return userService.getAll();
+    public ResponseEntity<List<User>> getAll() {
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getById(@PathVariable("id")ObjectId id){
-        return userService.getUserById(id);
+    public ResponseEntity<User> getById(@PathVariable("id") ObjectId id) {
+        if (userService.getUserById(id) != null) {
+            return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
