@@ -35,7 +35,7 @@ public class UserController {
             User updatedUser = userService.update(user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } else {
-            System.out.printf("Login [%s] doesn't exist", user.getLogin());
+            System.out.printf("Login [%s] doesn't exist\n", user.getLogin());
             System.out.println(user);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -16,38 +16,32 @@ public class WalletController {
 
     @Autowired
     WalletService walletService;
-//    @Autowired
-//    UserService userService;
 
-
-    /*@RequestMapping(value = "/login",method= RequestMethod.POST)
-    public String  create(@RequestBody Wallet wallet, String login){
-        User user = userService.findByLogin(login);
-
-        if(user.getWallet().contains(wallet)){
-            System.out.println("You already have this wallet!");
-            return "/login";
-        }
-        else{
-            walletService.create(wallet);
-            user.getWallet().add(wallet);
-            return "/index";
-        }
-    }*/
-
+    /**
+     * Rest endpoint for creating new wallet
+     *
+     * @param wallet
+     * @return ResponseEntity<Wallet>
+     */
     @PostMapping(value = "/create")
     public ResponseEntity<Wallet> createWallet(@RequestBody Wallet wallet) {
 
-        if (walletService.existsByName(wallet.getName())){
-            System.out.printf("Wallet with name [%s] already exists\n", wallet.getName());
+        if (walletService.existsByNameAndUserId(wallet.getName(), wallet.getUserId())) {
+            System.out.printf("User [%s] have already wallet with name [%s]\n", wallet.getUserId(), wallet.getName());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             Wallet createdWallet = walletService.create(wallet);
-            System.out.printf("Created wallet [%s]\n",createdWallet);
+            System.out.printf("Created wallet [%s]\n", createdWallet);
             return new ResponseEntity<>(createdWallet, HttpStatus.OK);
         }
     }
 
+    /**
+     * Rest endpoint for deleting a wallet by id
+     *
+     * @param id
+     * @return ResponseEntity<String>
+     */
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<String> deleteWallet(@PathVariable("id") String id) {
         Optional<Wallet> wallet = walletService.getWalletById(id);
@@ -61,30 +55,52 @@ public class WalletController {
         }
     }
 
+    /**
+     * Rest endpoint for updating a wallet
+     *
+     * @param wallet
+     * @return ResponseEntity<Wallet>
+     */
     @PutMapping(value = "/update")
     public ResponseEntity<Wallet> updateWallet(@RequestBody Wallet wallet) {
-        if (walletService.existsByIdAndName(wallet.getId(), wallet.getName())) {
+        Optional<Wallet> oldWallet = walletService.getWalletById(wallet.getId());
+        if (oldWallet.isPresent()) {
             Wallet updatedWallet = walletService.update(wallet);
-            Optional<Wallet> oldWallet = walletService.getWalletById(wallet.getId());
-            System.out.printf("Old wallet:\t [%s]\nNew wallet:\t[%s]\n", oldWallet.get(),updatedWallet);
+            System.out.printf("Old wallet:\t [%s]\nNew wallet:\t[%s]\n", oldWallet.get(), updatedWallet);
             return new ResponseEntity<>(updatedWallet, HttpStatus.OK);
         } else {
-            System.out.printf("Wallet with name [%s] not found!\n", wallet.getName());
+            System.out.printf("Wallet with id [%s] not found!\n", wallet.getId());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-
+    //TO DO: check if there is need for this endpoint
     @GetMapping(value = "/")
-    public ResponseEntity<List<Wallet>> getAll() {
+    public ResponseEntity<List<Wallet>> getAllWallets() {
         return new ResponseEntity<>(walletService.getAll(), HttpStatus.OK);
     }
 
-
+    /**
+     * Rest endpoint which returns a wallet by id
+     *
+     * @param id
+     * @return ResponseEntity<Wallet>
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<Wallet> getById(@PathVariable("id") String id) {
         Optional<Wallet> wallet = walletService.getWalletById(id);
         return wallet.isPresent() ? new ResponseEntity<>(wallet.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Rest endpoint to get wallets for a user
+     *
+     * @param userId
+     * @return ResponseEntity<List<Wallet>>
+     */
+    @GetMapping(value="/user/{userId}")
+    public ResponseEntity<List<Wallet>> getUserWallets(@PathVariable("userId") String userId){
+        return new ResponseEntity<>(walletService.getByUserId(userId),HttpStatus.OK);
     }
 
 

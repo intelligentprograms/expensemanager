@@ -9,7 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ExpenseRepository extends MongoRepository<Expense, String> {
-
-    Expense findById(Integer id);
     List<Expense> findByWalletId(String id);
 }

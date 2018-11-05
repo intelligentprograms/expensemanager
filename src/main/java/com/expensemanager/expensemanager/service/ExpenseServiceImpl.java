@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService{
@@ -22,8 +23,7 @@ public class ExpenseServiceImpl implements ExpenseService{
 
     @Override
     public Expense update(Expense expense) {
-        Expense oldExpense = expenseRepository.findById(Integer.parseInt(expense.getId()));
-
+        Expense oldExpense = expenseRepository.findById(expense.getId()).get();
         oldExpense.setAmount(expense.getAmount());
         oldExpense.setCategoryId(expense.getCategoryId());
         oldExpense.setDescription(expense.getDescription());
@@ -33,10 +33,10 @@ public class ExpenseServiceImpl implements ExpenseService{
         return expenseRepository.save(oldExpense);
     }
 
+
     @Override
     public void delete(String id) {
-        Expense expense = expenseRepository.findById(Integer.parseInt(id));
-
+        Expense expense = expenseRepository.findById(id).get();
         expenseRepository.delete(expense);
     }
 
@@ -48,5 +48,9 @@ public class ExpenseServiceImpl implements ExpenseService{
     @Override
     public List<Expense> findByWalletId(String id) {
         return expenseRepository.findByWalletId(id);
+    }
+    @Override
+    public Optional<Expense> getExpenseById(String id) {
+        return expenseRepository.findById(id);
     }
 }

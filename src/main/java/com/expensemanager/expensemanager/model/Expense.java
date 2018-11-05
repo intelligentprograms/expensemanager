@@ -90,4 +90,16 @@ public class Expense {
     public int hashCode() {
         return Objects.hash(id, description, categoryId, walletId, amount, expenseDate);
     }
+
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                ", walletId='" + walletId + '\'' +
+                ", amount=" + amount +
+                ", expenseDate=" + expenseDate +
+                '}';
+    }
 }

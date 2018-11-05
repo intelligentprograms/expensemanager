@@ -54,8 +54,8 @@ public class WalletServiceImpl implements WalletService {
         return walletRepository.existsByIdAndName(id, name);
     }
 
-    public boolean existsByName(String name) {
-        return walletRepository.existsByName(name);
+    public boolean existsByNameAndUserId(String name, String userId) {
+        return walletRepository.existsByNameAndUserId(name, userId);
     }
 
     @Override

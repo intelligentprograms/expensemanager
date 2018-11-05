@@ -12,7 +12,7 @@ public interface WalletService {
     void delete(Wallet id);
     List<Wallet> getByUserId(String userdId);
     Optional<Wallet> getWalletById(String walletId);
-    boolean existsByName(String name);
+    boolean existsByNameAndUserId(String name,String userId);
     boolean existsByIdAndName(String id, String name);
     List<Wallet> getAll();
 

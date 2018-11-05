@@ -23,7 +23,7 @@ public class Wallet {
     @NotNull
     private String walletTypeId;
     @Min(0)
-    private float amount;
+    private double amount;
 
     public String getId() {
         return id;
@@ -65,11 +65,11 @@ public class Wallet {
         this.walletTypeId = walletTypeId;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -78,7 +78,7 @@ public class Wallet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Wallet wallet = (Wallet) o;
-        return Float.compare(wallet.amount, amount) == 0 &&
+        return Double.compare(wallet.amount, amount) == 0 &&
                 Objects.equals(id, wallet.id) &&
                 Objects.equals(name, wallet.name) &&
                 Objects.equals(userId, wallet.userId) &&

@@ -10,5 +10,5 @@ import java.util.List;
 public interface WalletRepository extends MongoRepository<Wallet, String> {
     List<Wallet> getByUserId(String userId);
     boolean existsByIdAndName(String id, String name);
-    boolean existsByName(String name);
+    boolean existsByNameAndUserId(String name,String userId);
 }
