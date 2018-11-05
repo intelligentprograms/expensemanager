@@ -1,6 +1,5 @@
 package com.expensemanager.expensemanager.model;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +11,7 @@ import java.util.Date;
 @Document
 public class User {
     @Id
-    public ObjectId id;
+    public String id;
     @NotNull
     @Size(min = 3, max = 30)
     private String firstName;
@@ -42,7 +41,7 @@ public class User {
     public User(){}
 
     /*TO DO: use builder pattern here*/
-    public User(ObjectId id, String firstName, String lastName, String login, String password,
+    public User(String id, String firstName, String lastName, String login, String password,
                 String description, String email, Integer groupId, Integer countryId, Integer languageId,
                 Date dateOfBirth, Date registrationDate) {
         this.id = id;
@@ -59,11 +58,11 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

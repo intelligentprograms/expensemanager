@@ -2,11 +2,11 @@ package com.expensemanager.expensemanager.service;
 
 import com.expensemanager.expensemanager.model.User;
 import com.expensemanager.expensemanager.repository.UserRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,19 +21,20 @@ public class UserServiceImpl implements UserService {
 
     //update
     public User update(User user) {
-        User oldUser = userRepository.findById(user.getId());
+        Optional<User> oldUser = userRepository.findById(user.getId());
+        User _oldUser = oldUser.get();
+        _oldUser.setFirstName(user.getFirstName());
+        _oldUser.setLastName(user.getLastName());
+        _oldUser.setLogin(user.getLogin());
+        _oldUser.setPassword(user.getPassword());
+        _oldUser.setDescription(user.getDescription());
+        _oldUser.setEmail(user.getEmail());
+        _oldUser.setGroupId(user.getGroupId());
+        _oldUser.setCountryId(user.getCountryId());
+        _oldUser.setLanguageId(user.getLanguageId());
+        _oldUser.setDateOfBirth(user.getDateOfBirth());
+        return userRepository.save(_oldUser);
 
-        oldUser.setFirstName(user.getFirstName());
-        oldUser.setLastName(user.getLastName());
-        oldUser.setLogin(user.getLogin());
-        oldUser.setPassword(user.getPassword());
-        oldUser.setDescription(user.getDescription());
-        oldUser.setEmail(user.getEmail());
-        oldUser.setGroupId(user.getGroupId());
-        oldUser.setCountryId(user.getCountryId());
-        oldUser.setLanguageId(user.getLanguageId());
-        oldUser.setDateOfBirth(user.getDateOfBirth());
-        return userRepository.save(oldUser);
     }
 
     //delete
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(ObjectId id) {
+    public Optional<User> getUserById(String id) {
         return userRepository.findById(id);
     }
 

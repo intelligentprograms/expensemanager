@@ -2,13 +2,13 @@ package com.expensemanager.expensemanager.controller;
 
 import com.expensemanager.expensemanager.model.User;
 import com.expensemanager.expensemanager.service.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -23,9 +23,9 @@ public class UserController {
             System.out.printf("Login %s already exists", user.getLogin());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            User cratedUser = userService.create(user);
+            User createdUser = userService.create(user);
             System.out.println(user);
-            return new ResponseEntity<>(cratedUser, HttpStatus.OK);
+            return new ResponseEntity<>(createdUser, HttpStatus.OK);
         }
     }
 
@@ -43,10 +43,10 @@ public class UserController {
 
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") ObjectId id) {
-        User user = userService.getUserById(id);
-        if (user != null) {
-            userService.delete(user);
+    public ResponseEntity<String> deleteUser(@PathVariable("id") String id) {
+        Optional<User> user = userService.getUserById(id);
+        if (user.isPresent()) {
+            userService.delete(user.get());
             System.out.printf("User [%s] has been deleted.\n", user);
             return new ResponseEntity<>("User has been deleted", HttpStatus.OK);
         } else {
@@ -62,11 +62,8 @@ public class UserController {
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getById(@PathVariable("id") ObjectId id) {
-        if (userService.getUserById(id) != null) {
-            return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<User> getById(@PathVariable("id") String id) {
+        Optional<User> user = userService.getUserById(id);
+        return user.isPresent() ? new ResponseEntity<>(user.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
