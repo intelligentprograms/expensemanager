@@ -8,8 +8,7 @@ import java.util.List;
 
 @Repository
 public interface WalletRepository extends MongoRepository<Wallet, String> {
-
-    Wallet getById(String id);
-
     List<Wallet> getByUserId(String userId);
+    boolean existsByIdAndName(String id, String name);
+    boolean existsByName(String name);
 }

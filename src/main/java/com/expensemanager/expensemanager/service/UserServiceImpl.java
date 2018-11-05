@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
         _oldUser.setLanguageId(user.getLanguageId());
         _oldUser.setDateOfBirth(user.getDateOfBirth());
         return userRepository.save(_oldUser);
-
     }
 
     //delete

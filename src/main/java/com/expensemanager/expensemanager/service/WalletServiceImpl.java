@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WalletServiceImpl implements WalletService {
@@ -14,37 +15,51 @@ public class WalletServiceImpl implements WalletService {
     @Autowired
     private WalletRepository walletRepository;
 
-
     @Override
-    public Wallet createWallet(Wallet wallet) {
+    public Wallet create(Wallet wallet) {
         return walletRepository.save(wallet);
     }
 
     @Override
-    public Wallet updateWallet(Wallet wallet) {
-        Wallet oldWallet = walletRepository.getById(wallet.getId());
-
-        oldWallet.setName(wallet.getName());
-        oldWallet.setAmount(wallet.getAmount());
-        oldWallet.setCurrencyId(wallet.getCurrencyId());
-        oldWallet.setWalletType(wallet.getWalletType());
-
-        return walletRepository.save(oldWallet);
+    public Wallet update(Wallet wallet) {
+        Optional<Wallet> oldWallet = walletRepository.findById(wallet.getId());
+        Wallet _oldWallet = oldWallet.get();
+        _oldWallet.setName(wallet.getName());
+        _oldWallet.setAmount(wallet.getAmount());
+        _oldWallet.setCurrencyId(wallet.getCurrencyId());
+        _oldWallet.setWalletTypeId(wallet.getWalletTypeId());
+        return walletRepository.save(_oldWallet);
     }
 
     @Override
-    public void deleteWallet(String id) {
-        Wallet wallet = walletRepository.getById(id);
-        walletRepository.delete(wallet);
+    public void delete(Wallet wallet) {
+        if (walletRepository.existsByIdAndName(wallet.getId(), wallet.getName())) {
+            walletRepository.delete(wallet);
+        }
+    }
+
+
+    @Override
+    public List<Wallet> getByUserId(String userId) {
+        return walletRepository.getByUserId(userId);
+    }
+
+    @Override
+    public Optional<Wallet> getWalletById(String walletId) {
+        return walletRepository.findById(walletId);
+    }
+
+    @Override
+    public boolean existsByIdAndName(String id, String name) {
+        return walletRepository.existsByIdAndName(id, name);
+    }
+
+    public boolean existsByName(String name) {
+        return walletRepository.existsByName(name);
     }
 
     @Override
     public List<Wallet> getAll() {
         return walletRepository.findAll();
-    }
-
-    @Override
-    public List<Wallet> getByUserId(String userId) {
-        return walletRepository.getByUserId(userId);
     }
 }

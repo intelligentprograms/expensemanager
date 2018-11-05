@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Objects;
 
 @Document
@@ -22,10 +21,9 @@ public class Wallet {
     @NotNull
     private String currencyId;
     @NotNull
-    private WalletType walletType;
+    private String walletTypeId;
     @Min(0)
     private float amount;
-    private List<Expense> expense;
 
     public String getId() {
         return id;
@@ -59,12 +57,12 @@ public class Wallet {
         this.currencyId = currencyId;
     }
 
-    public WalletType getWalletType() {
-        return walletType;
+    public String getWalletTypeId() {
+        return walletTypeId;
     }
 
-    public void setWalletType(WalletType walletType) {
-        this.walletType = walletType;
+    public void setWalletTypeId(String walletTypeId) {
+        this.walletTypeId = walletTypeId;
     }
 
     public float getAmount() {
@@ -74,10 +72,6 @@ public class Wallet {
     public void setAmount(float amount) {
         this.amount = amount;
     }
-
-    public List<Expense> getExpense() { return expense; }
-
-    public void setExpense(List<Expense> expense) { this.expense = expense; }
 
     @Override
     public boolean equals(Object o) {
@@ -89,11 +83,23 @@ public class Wallet {
                 Objects.equals(name, wallet.name) &&
                 Objects.equals(userId, wallet.userId) &&
                 Objects.equals(currencyId, wallet.currencyId) &&
-                walletType == wallet.walletType;
+                walletTypeId.equals(wallet.walletTypeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, userId, currencyId, walletType, amount);
+        return Objects.hash(id, name, userId, currencyId, walletTypeId, amount);
+    }
+
+    @Override
+    public String toString() {
+        return "Wallet{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", userId='" + userId + '\'' +
+                ", currencyId='" + currencyId + '\'' +
+                ", walletTypeId='" + walletTypeId + '\'' +
+                ", amount=" + amount +
+                '}';
     }
 }

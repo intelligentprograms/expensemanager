@@ -20,11 +20,11 @@ public class UserController {
     @PostMapping(value = "/signup")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         if (userService.existsUserByLogin(user.getLogin())) {
-            System.out.printf("Login %s already exists", user.getLogin());
+            System.out.printf("Login [%s] already exists\n", user.getLogin());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             User createdUser = userService.create(user);
-            System.out.println(user);
+            System.out.printf("New user created: [%s]\n",user);
             return new ResponseEntity<>(createdUser, HttpStatus.OK);
         }
     }
@@ -35,7 +35,7 @@ public class UserController {
             User updatedUser = userService.update(user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } else {
-            System.out.printf("Login %s doesn't exist", user.getLogin());
+            System.out.printf("Login [%s] doesn't exist", user.getLogin());
             System.out.println(user);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -47,7 +47,7 @@ public class UserController {
         Optional<User> user = userService.getUserById(id);
         if (user.isPresent()) {
             userService.delete(user.get());
-            System.out.printf("User [%s] has been deleted.\n", user);
+            System.out.printf("User [%s] has been deleted.\n", user.get());
             return new ResponseEntity<>("User has been deleted", HttpStatus.OK);
         } else {
             System.out.printf("User [%s] not found, delete failed.\n", id);
