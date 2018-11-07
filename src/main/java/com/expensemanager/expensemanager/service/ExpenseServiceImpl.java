@@ -35,15 +35,14 @@ public class ExpenseServiceImpl implements ExpenseService{
 
 
     @Override
-    public void delete(String id) {
-        Expense expense = expenseRepository.findById(id).get();
+    public void delete(Expense expense) {
         expenseRepository.delete(expense);
     }
 
-    @Override
+    /*@Override
     public List<Expense> getAll() {
         return expenseRepository.findAll();
-    }
+    }*/
 
     @Override
     public List<Expense> findByWalletId(String id) {

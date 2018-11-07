@@ -9,7 +9,7 @@ public interface WalletService {
 
     Wallet create(Wallet wallet);
     Wallet update(Wallet wallet);
-    void delete(Wallet id);
+    void delete(Wallet wallet);
     List<Wallet> getByUserId(String userdId);
     Optional<Wallet> getWalletById(String walletId);
     boolean existsByNameAndUserId(String name,String userId);

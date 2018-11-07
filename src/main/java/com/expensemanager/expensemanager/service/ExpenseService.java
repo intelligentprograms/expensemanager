@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface ExpenseService {
 
     Expense create(Expense expense);
-    Expense update(Expense user);
-    void delete(String id);
-    List<Expense> getAll();
+    Expense update(Expense expense);
+    void delete(Expense expense);
+    //List<Expense> getAll();
     List<Expense> findByWalletId(String login);
     Optional<Expense> getExpenseById(String id);
 }
